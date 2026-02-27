@@ -1,41 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { ProductInput, CreateRequisitionInput } from '@shared/schemas/inventorySchema'
+import { ProductDTO } from '@shared/types'
 
 // Type qui matche ton Schema Prisma mis à jour
-export interface ProductLot {
-  id: string
-  batchNumber: string
-  expiryDate: string // Serialisé en string par Electron
-  quantity: number
-  receivedDate: string
-}
-
-export interface Product {
-  id: string
-  name: string
-  dci?: string
-  code: string
-  codeCip7?: string
-  codeAtc?: string
-
-  category: string
-  form?: string
-  dosage?: string
-  packaging?: string
-  description?: string
-  isPrescriptionRequired: boolean
-
-  currentStock: number
-  minStock: number
-  maxStock?: number
-  location?: string
-
-  sellPrice: number
-  buyingPrice: number
-  vatRate: number
-
-  lots: ProductLot[]
-}
 
 export interface Requisition {
   id: string
@@ -54,11 +21,17 @@ export interface RequisitionItem {
   buyPrice: number
   batchNumber: string
   expiryDate: string
-  product: Product // Relation incluse
+  product: ProductDTO // Relation incluse
 }
 
 export interface InventoryState {
-  products: Product[]
+  products: ProductDTO[]
+  isLoading: boolean
+  error: string | null
+}
+
+export interface InventoryState {
+  products: ProductDTO[]
   isLoading: boolean
   error: string | null
 }
@@ -72,13 +45,13 @@ const initialState: InventoryState = {
 // --- ASYNC THUNKS (Appels IPC) ---
 
 // 1. Charger les produits
-export const fetchProducts = createAsyncThunk<Product[], void>(
+export const fetchProducts = createAsyncThunk<ProductDTO[], void>(
   'inventory/fetchProducts',
   async (_, { rejectWithValue }) => {
     try {
       const response = await window.api.inventory.getProducts()
       if (!response.success) throw new Error(response.error?.message || 'Erreur inconnue')
-      return response.data as Product[]
+      return response.data as ProductDTO[]
     } catch (err: unknown) {
       const error = err as Error
       return rejectWithValue(error.message || 'Erreur lors du chargement des produits')
@@ -87,13 +60,13 @@ export const fetchProducts = createAsyncThunk<Product[], void>(
 )
 
 // 2. Créer un produit
-export const createProduct = createAsyncThunk<Product, ProductInput>(
+export const createProduct = createAsyncThunk<ProductDTO, ProductInput>(
   'inventory/createProduct',
   async (data, { rejectWithValue }) => {
     try {
       const response = await window.api.inventory.createProduct(data)
       if (!response.success) throw new Error(response.error?.message || 'Erreur création')
-      return response.data as Product
+      return response.data as ProductDTO
     } catch (err: unknown) {
       const error = err as Error
       return rejectWithValue(error.message || 'Erreur lors de la création du produit')
@@ -167,7 +140,7 @@ const inventorySlice = createSlice({
         state.isLoading = true
         state.error = null
       })
-      .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<Product[]>) => {
+      .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<ProductDTO[]>) => {
         state.isLoading = false
         state.products = action.payload
       })
@@ -181,7 +154,7 @@ const inventorySlice = createSlice({
         state.isLoading = true
         state.error = null
       })
-      .addCase(createProduct.fulfilled, (state, action: PayloadAction<Product>) => {
+      .addCase(createProduct.fulfilled, (state, action: PayloadAction<ProductDTO>) => {
         state.isLoading = false
         state.products.push(action.payload)
       })
