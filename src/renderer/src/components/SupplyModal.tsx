@@ -4,9 +4,9 @@ import { RootState, AppDispatch } from '@renderer/app/store/store'
 import {
   createDraftRequisition,
   validateRequisition,
-  fetchProducts,
-  Product
+  fetchProducts
 } from '@renderer/app/store/slice/inventorySlice'
+import { ProductDTO } from '@shared/types'
 
 interface Props {
   onClose: () => void
@@ -50,7 +50,7 @@ export const SupplyModal: React.FC<Props> = ({ onClose }) => {
     loadSupplier()
   }, [])
 
-  const handleSelectProduct = (prod: Product) => {
+  const handleSelectProduct = (prod: ProductDTO) => {
     setSelectedProductId(prod.id)
     setSearchTerm(prod.name)
     setBuyingPrice(prod.buyingPrice) // Pré-remplir avec le prix de réf

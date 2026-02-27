@@ -42,6 +42,9 @@ export class InventoryService {
         currentStock: 0,
         buyingPrice: cleanData.buyingPrice || 0,
         sellPrice: cleanData.sellPrice || 0
+      },
+      include: {
+        lots: true
       }
     })
   }

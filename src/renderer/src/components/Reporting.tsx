@@ -14,7 +14,7 @@ import {
 } from 'recharts'
 import { ProductDTO } from '@shared/types'
 
-// 1. MOCK strictement aligné sur l'interface ProductDTO (zéro propriété inconnue)
+// MOCK strictement aligné sur l'interface ProductDTO (zéro propriété inconnue)
 const MOCK_INVENTORY_DATA: ProductDTO[] = [
   {
     id: '1',
@@ -26,7 +26,17 @@ const MOCK_INVENTORY_DATA: ProductDTO[] = [
     buyingPrice: 1000,
     currentStock: 100,
     minStock: 10,
-    lots: [{ id: 'l1', batchNumber: 'BAT1', expiryDate: '2025-01-01', quantity: 100 }],
+    lots: [
+      {
+        id: 'l1',
+        batchNumber: 'BAT1',
+        expiryDate: '2025-01-01',
+        quantity: 100,
+        receivedDate: new Date().toISOString()
+      }
+    ],
+    isPrescriptionRequired: false,
+    vatRate: 0,
     dci: 'Paracétamol',
     form: 'Comprimé'
   },
@@ -40,7 +50,17 @@ const MOCK_INVENTORY_DATA: ProductDTO[] = [
     buyingPrice: 2200,
     currentStock: 45,
     minStock: 5,
-    lots: [{ id: 'l2', batchNumber: 'BAT2', expiryDate: '2026-01-01', quantity: 45 }],
+    lots: [
+      {
+        id: 'l2',
+        batchNumber: 'BAT2',
+        expiryDate: '2026-01-01',
+        quantity: 45,
+        receivedDate: new Date().toISOString()
+      }
+    ],
+    isPrescriptionRequired: true,
+    vatRate: 0,
     dci: 'Amoxicilline',
     form: 'Gélule'
   }

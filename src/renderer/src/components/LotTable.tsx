@@ -5,6 +5,7 @@ import { ProductLotDTO } from '@shared/types'
 interface FlatLot extends ProductLotDTO {
   medName: string
   medCode: string
+  receivedDate: string
 }
 
 interface Props {
@@ -24,6 +25,7 @@ export const LotTable: React.FC<Props> = ({ medications }) => {
           batchNumber: lot.batchNumber,
           expiryDate: lot.expiryDate,
           quantity: lot.quantity,
+          receivedDate: lot.receivedDate,
           medName: med.name,
           medCode: med.code
         })

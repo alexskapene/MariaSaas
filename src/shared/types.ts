@@ -114,6 +114,7 @@ export interface ProductLotDTO {
   batchNumber: string
   expiryDate: string
   quantity: number
+  receivedDate: string
 }
 export interface ProductDTO {
   id: string
@@ -127,6 +128,15 @@ export interface ProductDTO {
   minStock: number
   sellPrice: number
   buyingPrice: number
+  codeCip7?: string | null
+  codeAtc?: string | null
+  packaging?: string | null
+  description?: string | null
+  isPrescriptionRequired: boolean
+  maxStock?: number | null
+  location?: string | null
+  vatRate: number
+
   lots: ProductLotDTO[]
 }
 export interface SaleItemDTO {
