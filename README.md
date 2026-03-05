@@ -4,7 +4,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 **MariaSaaS** est une solution de gestion de pharmacie de pointe, conçue pour être **moderne**, **sécurisée** et **Offline-First**. 
-n
+
 L'objectif de ce projet est de démocratiser l'accès à des outils de gestion pharmaceutique professionnels pour les officines indépendantes, particulièrement dans les zones à connectivité limitée, tout en respectant les standards internationaux (GxP).
 
 ## ✨ Vision & Impact
