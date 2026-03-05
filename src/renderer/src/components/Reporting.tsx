@@ -89,7 +89,7 @@ interface ReportRow {
 const Reporting: React.FC = () => {
   const [reportType, setReportType] = useState<'sales' | 'inventory' | 'credits'>('sales')
   const [dateRange, setDateRange] = useState({
-    start: '2024-01-01',
+    start: '2026-01-01',
     end: new Date().toISOString().split('T')[0]
   })
 
@@ -156,7 +156,7 @@ const Reporting: React.FC = () => {
           }
         ] as StatItem[],
         chart: [
-          { name: 'Dû Patient', value: credits.outstanding, color: '#ef4444' },
+          { name: 'Dû client', value: credits.outstanding, color: '#ef4444' },
           { name: 'Recouvré', value: credits.recovered, color: '#10b981' }
         ] as ChartItem[],
 

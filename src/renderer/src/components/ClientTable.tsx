@@ -12,7 +12,7 @@ export const ClientTable: React.FC<Props> = ({ clients, onEdit, onDelete, isAdmi
   if (clients.length === 0) {
     return (
       <div className="p-20 text-center text-slate-400 font-black uppercase tracking-widest italic">
-        Aucun patient trouvé.
+        Aucun client trouvé.
       </div>
     )
   }
@@ -22,7 +22,7 @@ export const ClientTable: React.FC<Props> = ({ clients, onEdit, onDelete, isAdmi
       <thead className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
         <tr>
           <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Patient
+            client
           </th>
           <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
             Solde Crédit

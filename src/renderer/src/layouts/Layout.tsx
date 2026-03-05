@@ -140,7 +140,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout }) => {
     },
     {
       id: 'customers',
-      label: 'Patients',
+      label: 'clients & 1ournissuers',
       icon: (props: React.SVGProps<SVGSVGElement>) => (
         <svg
           width="20"

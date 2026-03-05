@@ -20,3 +20,12 @@ out
 /src/renderer/public/vite.svg.map.br.gz.br.gz.br.gz
 /prisma/dev.dbprisma/*.db
 prisma/*.db-journal
+# Database files
+# SQLite / Prisma database
+*.db
+*.db-journal
+*.db.backup
+
+# Prisma local database
+prisma/*.db
+prisma/*.db.backup

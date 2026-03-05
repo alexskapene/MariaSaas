@@ -76,7 +76,7 @@ const CustomerManagement: React.FC = () => {
   }
 
   const handleDeleteClient = async (id: string) => {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce patient ? Cette action est irréversible.')) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce client ? Cette action est irréversible.')) {
       await dispatch(removeClient(id))
     }
   }
@@ -130,7 +130,7 @@ const CustomerManagement: React.FC = () => {
       const totalCredit = clients.reduce((acc, c) => acc + c.currentCredit, 0)
       return [
         {
-          title: 'Total Patients',
+          title: 'Total clients',
           value: clients.length,
           subtext: 'Base de données active',
           icon: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
@@ -146,7 +146,7 @@ const CustomerManagement: React.FC = () => {
         {
           title: 'Taux Fidélité',
           value: '12%',
-          subtext: 'Patients réguliers',
+          subtext: 'clients réguliers',
           icon: 'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z',
           color: 'bg-slate-800 shadow-slate-800/20'
         }
@@ -196,7 +196,7 @@ const CustomerManagement: React.FC = () => {
             onClick={() => handleTabChange('clients')}
             className={`px-8 py-3 rounded-[1.6rem] text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${activeTab === 'clients' ? 'bg-slate-900 dark:bg-emerald-600 text-white shadow-lg scale-105' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}
           >
-            Patients
+            clients
           </button>
           <button
             onClick={() => handleTabChange('suppliers')}
@@ -222,7 +222,7 @@ const CustomerManagement: React.FC = () => {
         <div className="relative w-full md:w-96 group">
           <input
             type="text"
-            placeholder={`Rechercher un ${activeTab === 'clients' ? 'patient' : 'fournisseur'}...`}
+            placeholder={`Rechercher un ${activeTab === 'clients' ? 'client' : 'fournisseur'}...`}
             className={`w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl outline-none transition-all font-bold dark:text-white focus:ring-2 ${activeTab === 'clients' ? 'focus:ring-emerald-500' : 'focus:ring-sky-500'}`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -260,7 +260,7 @@ const CustomerManagement: React.FC = () => {
             >
               <path d="M12 5v14M5 12h14" />
             </svg>
-            Nouveau {activeTab === 'clients' ? 'Patient' : 'Fournisseur'}
+            Nouveau {activeTab === 'clients' ? 'client' : 'Fournisseur'}
           </button>
         )}
       </div>
