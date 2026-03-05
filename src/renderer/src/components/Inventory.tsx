@@ -8,6 +8,7 @@ import { LotTable } from './LotTable'
 import { ProductDetailModal } from './ProductDetailModal'
 import { RequisitionEditor } from './RequisitionEditor'
 import { RequisitionList } from './RequisitionList'
+import CategoryBadge from './CategoryBadge'
 
 // Redux & Logic
 import { useInventoryLogic } from '@renderer/hooks/useInventoryLogic'
@@ -200,14 +201,11 @@ const Inventory: React.FC = () => {
         </div>
 
         {/* Catégories */}
+
         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
           {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`flex-none px-4 py-2 rounded-xl text-[8px] font-black uppercase tracking-widest transition-all border ${selectedCategory === cat ? 'bg-sky-50 dark:bg-sky-900/20 text-sky-600 border-sky-200' : 'bg-white dark:bg-slate-900 text-slate-400 border-slate-100'}`}
-            >
-              {cat}
+            <button key={cat} onClick={() => setSelectedCategory(cat)}>
+              <CategoryBadge category={cat} isActive={selectedCategory === cat} />
             </button>
           ))}
         </div>
