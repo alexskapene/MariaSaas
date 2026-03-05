@@ -22,7 +22,7 @@ export const ClientStats: React.FC<{ clients: ClientDTO[] }> = ({ clients }) => 
         </div>
         <div>
           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-            Total Patients
+            Total clients
           </p>
           <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
             {clients.length}

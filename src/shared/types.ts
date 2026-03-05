@@ -190,8 +190,10 @@ export interface DashboardStatsDTO {
 export interface SupplierDTO {
   id: string
   name: string
-  phone?: string
-  email?: string
+  contact?: string | null // 👈 Ajouté pour corriger l'erreur TS
+  phone?: string | null
+  email?: string | null
+  address?: string | null // 👈 Ajouté pour être complet
 }
 export interface ApiResponse<T> {
   success: boolean

@@ -301,7 +301,7 @@ const BillingManagement: React.FC = () => {
                     Référence
                   </th>
                   <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                    Patient
+                    client
                   </th>
                   <th className="px-10 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">
                     Statut

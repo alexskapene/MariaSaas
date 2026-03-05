@@ -1,6 +1,7 @@
 import { prisma } from '../lib/prisma'
 import { CreateRequisitionInput, ProductInput } from '../../shared/schemas/inventorySchema'
 import { RequisitionStatus } from '../../shared/types'
+import { CreateSupplierInput, UpdateSupplierInput } from '@shared/schemas/supplierSchema'
 
 function generateInternalEAN13() {
   // Préfixe interne (20-29 sont réservés usage interne)
@@ -62,17 +63,36 @@ export class InventoryService {
   }
 
   // --- FOURNISSEURS ---
-  async createSupplier(data: { name: string; phone?: string }) {
+  async getAllSuppliers() {
+    return await prisma.supplier.findMany({ orderBy: { name: 'asc' } })
+  }
+
+  async createSupplier(data: CreateSupplierInput) {
     return await prisma.supplier.create({ data })
   }
 
-  async getAllSuppliers() {
-    return await prisma.supplier.findMany()
+  async updateSupplier(data: UpdateSupplierInput) {
+    const { id, ...updateData } = data
+    return await prisma.supplier.update({
+      where: { id },
+      data: updateData
+    })
+  }
+
+  async deleteSupplier(id: string) {
+    // RBAC Métier : On ne supprime pas un fournisseur s'il a déjà des réquisitions (historique)
+    const count = await prisma.requisition.count({ where: { supplierId: id } })
+    if (count > 0) {
+      throw new Error(
+        'Impossible de supprimer ce fournisseur car un historique de commandes y est rattaché.'
+      )
+    }
+    return await prisma.supplier.delete({ where: { id } })
   }
 
   // --- RÉQUISITIONS (Entrée Stock) ---
 
-  // 1. Créer un BROUILLON
+  // Créer un BROUILLON
   async createDraftRequisition(data: CreateRequisitionInput) {
     const reference = `REQ-${Date.now().toString().slice(-6)}` // Générateur simple de ref
 
@@ -96,7 +116,7 @@ export class InventoryService {
     })
   }
 
-  // 2. VALIDATION (Transaction Critique)
+  // VALIDATION (Transaction Critique)
   async validateRequisition(requisitionId: string) {
     return await prisma.$transaction(async (tx) => {
       const requisition = await tx.requisition.findUnique({
@@ -118,7 +138,7 @@ export class InventoryService {
           }
         })
 
-        // 2. CRÉATION DU LOT PHYSIQUE (Pour l'onglet "Lots")
+        // CRÉATION DU LOT PHYSIQUE (Pour l'onglet "Lots")
         if (item.batchNumber && item.expiryDate) {
           await tx.stockLot.create({
             data: {

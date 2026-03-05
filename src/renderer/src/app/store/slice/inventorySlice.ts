@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { ProductInput, CreateRequisitionInput } from '@shared/schemas/inventorySchema'
-import { ProductDTO } from '@shared/types'
-
-// Type qui matche ton Schema Prisma mis à jour
+import { ProductDTO, SupplierDTO } from '@shared/types'
+import { CreateSupplierInput, UpdateSupplierInput } from '@shared/schemas/supplierSchema'
+import { RootState } from '../store'
 
 export interface Requisition {
   id: string
@@ -21,23 +21,19 @@ export interface RequisitionItem {
   buyPrice: number
   batchNumber: string
   expiryDate: string
-  product: ProductDTO // Relation incluse
+  product: ProductDTO
 }
 
 export interface InventoryState {
   products: ProductDTO[]
-  isLoading: boolean
-  error: string | null
-}
-
-export interface InventoryState {
-  products: ProductDTO[]
+  suppliers: SupplierDTO[]
   isLoading: boolean
   error: string | null
 }
 
 const initialState: InventoryState = {
   products: [],
+  suppliers: [],
   isLoading: false,
   error: null
 }
@@ -79,12 +75,6 @@ export const deleteProduct = createAsyncThunk<string, string>(
   'inventory/deleteProduct',
   async (_, { rejectWithValue }) => {
     try {
-      // Note: Assure-toi d'ajouter cette méthode dans preload/ IPC
-      // Pour l'instant, on suppose qu'elle existe ou on la rajoutera
-      // Si elle n'existe pas encore, cela va throw.
-      // const response = await window.api.inventory.deleteProduct(id);
-      // if (!response.success) throw new Error(response.error?.message);
-      // return id;
       throw new Error("Suppression non implémentée backend pour l'instant")
     } catch (err: unknown) {
       const error = err as Error
@@ -120,6 +110,61 @@ export const validateRequisition = createAsyncThunk<Requisition, string>(
     } catch (err: unknown) {
       const error = err as Error
       return rejectWithValue(error.message || 'Erreur lors de la validation du bon')
+    }
+  }
+)
+
+// --- THUNKS POUR FOURNISSEURS ---
+
+export const fetchSuppliers = createAsyncThunk('inventory/fetchSuppliers', async () => {
+  const res = await window.api.inventory.getSuppliers()
+  return res.data as SupplierDTO[]
+})
+
+export const addSupplier = createAsyncThunk<SupplierDTO, CreateSupplierInput>(
+  'inventory/addSupplier',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      const role = (getState() as RootState).auth.user?.role
+      if (!role) return rejectWithValue('Non authentifié')
+      const res = await window.api.inventory.createSupplier(data, role)
+      if (!res.success) throw new Error(res.error?.message)
+      return res.data as SupplierDTO
+    } catch (err: unknown) {
+      // ✅ Correction ici: 'unknown' au lieu de 'any'
+      return rejectWithValue((err as Error).message)
+    }
+  }
+)
+
+export const editSupplier = createAsyncThunk<SupplierDTO, UpdateSupplierInput>(
+  'inventory/editSupplier',
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      const role = (getState() as RootState).auth.user?.role
+      if (!role) return rejectWithValue('Non authentifié')
+      const res = await window.api.inventory.updateSupplier(data, role)
+      if (!res.success) throw new Error(res.error?.message)
+      return res.data as SupplierDTO
+    } catch (err: unknown) {
+      // ✅ Correction ici
+      return rejectWithValue((err as Error).message)
+    }
+  }
+)
+
+export const removeSupplier = createAsyncThunk<string, string>(
+  'inventory/removeSupplier',
+  async (id, { getState, rejectWithValue }) => {
+    try {
+      const role = (getState() as RootState).auth.user?.role
+      if (!role) return rejectWithValue('Non authentifié')
+      const res = await window.api.inventory.deleteSupplier(id, role)
+      if (!res.success) throw new Error(res.error?.message)
+      return id
+    } catch (err: unknown) {
+      // ✅ Correction ici
+      return rejectWithValue((err as Error).message)
     }
   }
 )
@@ -170,19 +215,30 @@ const inventorySlice = createSlice({
 
       // Requisitions
       .addCase(createDraftRequisition.pending, (state) => {
-        // On ne met pas forcément tout le state inventory en loading pur un draft
         state.error = null
       })
       .addCase(createDraftRequisition.rejected, (state, action) => {
         state.error = action.payload as string
       })
       .addCase(validateRequisition.fulfilled, () => {
-        // Si la validation impacte le stock, il faudrait idéalement re-fetcher les produits
-        // ou mettre à jour le stock localement si on a toutes les infos.
-        // Pour simplifier, on peut déclencher un refetch dans le composant ou ici.
+        // Logique post-validation (optionnel)
       })
       .addCase(validateRequisition.rejected, (state, action) => {
         state.error = action.payload as string
+      })
+      // SUPPLIERS
+      .addCase(fetchSuppliers.fulfilled, (state, action) => {
+        state.suppliers = action.payload
+      })
+      .addCase(addSupplier.fulfilled, (state, action) => {
+        state.suppliers.push(action.payload)
+      })
+      .addCase(editSupplier.fulfilled, (state, action) => {
+        const index = state.suppliers.findIndex((s) => s.id === action.payload.id)
+        if (index !== -1) state.suppliers[index] = action.payload
+      })
+      .addCase(removeSupplier.fulfilled, (state, action) => {
+        state.suppliers = state.suppliers.filter((s) => s.id !== action.payload)
       })
   }
 })

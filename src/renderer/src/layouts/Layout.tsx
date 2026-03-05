@@ -7,6 +7,7 @@ import { UserRole } from '@shared/types'
 import { selectIsDarkMode, toggleTheme } from '@renderer/app/store/slice/themeSlice'
 import { RootState } from '@renderer/app/store/store'
 import ChangeLang from '@renderer/components/changeLang'
+import ProfileModal from '@renderer/components/ProfileModal'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -26,6 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout }) => {
   // --- 2. STATE LOCAL ---
   const [isSidebarOpen, setSidebarOpen] = useState(false)
   const [isDesktopOpen, setIsDesktopOpen] = useState(true)
+  const [isModelOpen, setIsModelOpen] = useState(false)
 
   const user = useSelector((state: RootState) => state.auth.user)
 
@@ -46,6 +48,10 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout }) => {
     navigate(`/${route}`) // C'est ici qu'on change l'URL
     setSidebarOpen(false)
   }
+
+  // const handleClick = (): void => {
+  //   navigate('/userprofil')
+  // }
 
   // --- 4. EFFECTS ---
   // Synchronisation du Dark Mode avec le DOM
@@ -135,7 +141,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout }) => {
     },
     {
       id: 'customers',
-      label: 'Patients',
+      label: 'clients & 1ournissuers',
       icon: (props: React.SVGProps<SVGSVGElement>) => (
         <svg
           width="20"
@@ -220,7 +226,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout }) => {
         </div>
 
         {/* NAV */}
-        <nav className="flex-1 mt-6 px-4 space-y-2 overflow-y-auto no-scrollbar py-2">
+        <nav className="flex-1 mt-6 px-4 space-y-2 overflow-y-auto no-scrollbar py-2 relative">
           {navItems
             .filter((item) => item.roles.includes(userRole))
             .map((item) => {
@@ -361,9 +367,14 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout }) => {
               </div>
 
               {/* INITIALES DYNAMIQUES */}
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-slate-900 dark:bg-sky-600 flex items-center justify-center text-white font-black shadow-xl text-xs md:text-sm flex-none border-2 border-white/10 transition-colors">
+              <div
+                onClick={() => setIsModelOpen(!isModelOpen)}
+                className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-slate-900 dark:bg-sky-600 flex items-center justify-center text-white font-black shadow-xl text-xs md:text-sm flex-none border-2 border-white/10 transition-colors cursor-pointer "
+              >
                 {userInitials}
               </div>
+
+              {isModelOpen && <ProfileModal user={user} onClose={() => setIsModelOpen(false)} />}
             </div>
           </div>
         </header>
