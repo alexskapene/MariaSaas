@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { LoginInput } from '@shared/schemas/authSchema'
+import { UpdateProfileInput } from '@shared/schemas/userSchema'
 import { UserRole } from '@shared/types'
 
 // Type utilisateur (Front)
@@ -8,6 +9,8 @@ interface UserState {
   email: string
   name: string
   role: UserRole
+  phone?: string | null
+  avatar?: string | null
 }
 
 export interface AuthState {
@@ -31,7 +34,6 @@ const getInitialState = (): AuthState => {
       }
     } catch (err: unknown) {
       console.error("Erreur lors du parsing de l'utilisateur sauvegardé:", err)
-      // En cas d'erreur de parsing, on nettoie le storage pour éviter les problèmes futurs
       localStorage.removeItem('auth_user')
     }
   }
@@ -61,7 +63,6 @@ export const loginUser = createAsyncThunk(
         return rejectWithValue(response.error?.message || 'Erreur de connexion')
       }
 
-      // On retourne les données ET le choix de persistance
       return { user: response.data, rememberMe }
     } catch (err: unknown) {
       const error = err as Error
@@ -70,11 +71,36 @@ export const loginUser = createAsyncThunk(
   }
 )
 
+// --- THUNK : LOGOUT ---
 export const logoutUser = createAsyncThunk('auth/logout', async () => {
   await window.api.auth.logout()
-  // Nettoyage impératif lors du logout
   localStorage.removeItem('auth_user')
 })
+
+// --- THUNK : UPDATE PROFILE (issue #21) ---
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async (data: UpdateProfileInput, { rejectWithValue }) => {
+    try {
+      const response = await window.api.auth.updateProfile(data)
+
+      if (!response.success || !response.data) {
+        return rejectWithValue(response.error?.message || 'Erreur lors de la mise à jour')
+      }
+
+      // Si l'utilisateur avait choisi "Se souvenir de moi", on rafraîchit le localStorage
+      const savedUser = localStorage.getItem('auth_user')
+      if (savedUser) {
+        localStorage.setItem('auth_user', JSON.stringify(response.data))
+      }
+
+      return response.data
+    } catch (err: unknown) {
+      const error = err as Error
+      return rejectWithValue(error.message || 'Erreur critique')
+    }
+  }
+)
 
 const authSlice = createSlice({
   name: 'auth',
@@ -86,6 +112,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // ── LOGIN ──────────────────────────────────────────────────────────
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true
         state.error = null
@@ -95,12 +122,9 @@ const authSlice = createSlice({
         state.isAuthenticated = true
         state.user = action.payload.user
 
-        // 2. Persistance Conditionnelle
         if (action.payload.rememberMe) {
           localStorage.setItem('auth_user', JSON.stringify(action.payload.user))
         } else {
-          // Si l'utilisateur ne veut pas être "souvenu", on nettoie le storage
-          // (il restera connecté tant que l'app est ouverte grâce au state Redux)
           localStorage.removeItem('auth_user')
         }
       })
@@ -109,10 +133,28 @@ const authSlice = createSlice({
         state.isAuthenticated = false
         state.error = action.payload as string
       })
+
+      // ── LOGOUT ─────────────────────────────────────────────────────────
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null
         state.isAuthenticated = false
         state.error = null
+      })
+
+      // ── UPDATE PROFILE ─────────────────────────────────────────────────
+      .addCase(updateProfile.pending, (state) => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false
+        if (state.user) {
+          state.user = { ...state.user, ...action.payload }
+        }
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.payload as string
       })
   }
 })
