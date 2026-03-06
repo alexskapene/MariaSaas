@@ -19,7 +19,7 @@ export const VolumeChart: React.FC<Props> = ({ data }) => {
   const activeColor = isDark ? '#3b82f6' : '#10b981' // Emerald en light
 
   return (
-    <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[1rem] md:rounded-[1rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors overflow-hidden">
       <h3 className="text-xl font-black italic text-slate-900 dark:text-white tracking-tighter uppercase mb-10">
         Volume Hebdomadaire
       </h3>

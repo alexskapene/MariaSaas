@@ -70,7 +70,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="max-w-[1600px] mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-10">
       {/* 1. TOP BAR : Title & Exchange Rate */}
-      <div className="relative overflow-hidden flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-slate-200/50 dark:border-slate-800/50 shadow-xl shadow-slate-200/40 dark:shadow-black/20 group">
+      <div className="relative overflow-hidden flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-8 rounded-[1rem] border border-slate-200/50 dark:border-slate-800/50 shadow-xl shadow-slate-200/40 dark:shadow-black/20 group">
         {/* Decorative ambient background */}
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/20 transition-all duration-700"></div>
 
@@ -166,7 +166,7 @@ const Dashboard: React.FC = () => {
         <VolumeChart data={chartData.length > 0 ? chartData : [{ name: 'Auj', sales: 0 }]} />
 
         {/* Placeholder pour une future section : Top Produits vendus */}
-        <div className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-center italic text-slate-400 text-sm">
+        <div className="bg-white dark:bg-slate-900 p-8 rounded-[1rem] border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-center italic text-slate-400 text-sm">
           Module &quot;Top Performances Produits&quot; en cours d&apos;apprentissage...
         </div>
       </div>

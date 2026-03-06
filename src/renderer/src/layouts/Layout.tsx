@@ -6,6 +6,7 @@ import { Icons } from '../constants'
 import { UserRole } from '@shared/types'
 import { selectIsDarkMode, toggleTheme } from '@renderer/app/store/slice/themeSlice'
 import { RootState } from '@renderer/app/store/store'
+import ChangeLang from '@renderer/components/changeLang'
 import ProfileModal from '@renderer/components/ProfileModal'
 
 interface LayoutProps {
@@ -322,6 +323,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout }) => {
 
           {/* HEADER RIGHT (USER PROFILE) */}
           <div className="flex items-center gap-3 md:gap-6">
+            <ChangeLang />
             <button
               onClick={() => dispatch(toggleTheme())}
               className="w-10 h-10 md:w-12 md:h-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl md:rounded-2xl flex items-center justify-center text-slate-400 dark:text-sky-400 flex-none hover:scale-105 active:scale-95 transition-all shadow-sm"

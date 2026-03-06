@@ -47,7 +47,7 @@ export const AddClientModal: React.FC<Props> = ({ onClose, initialData }) => {
     <div className="fixed inset-0 z-[120] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4">
       <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl animate-in zoom-in-95 border border-slate-200 dark:border-slate-800">
         <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-6 uppercase italic tracking-tighter">
-          {initialData ? 'Modifier client' : 'Nouveau client'}
+          {initialData ? 'Modifier Patient' : 'Nouveau Patient'}
         </h2>
 
         {errorMsg && (

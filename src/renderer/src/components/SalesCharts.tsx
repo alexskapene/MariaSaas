@@ -25,7 +25,7 @@ export const SalesChart: React.FC<Props> = ({ data }) => {
   const strokeColor = isDark ? '#38bdf8' : '#059669' // Emerald-600
 
   return (
-    <div className="xl:col-span-2 bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+    <div className="xl:col-span-2 bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[1rem] md:rounded-[1rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 md:mb-10">
         <div>
           <h3 className="text-xl md:text-2xl font-black italic text-slate-900 dark:text-white tracking-tighter uppercase leading-none">

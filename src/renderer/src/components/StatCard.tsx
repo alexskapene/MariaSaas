@@ -17,7 +17,7 @@ export const StatCard: React.FC<Props> = ({ title, value, change, color, icon })
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 p-7 rounded-[2.2rem] border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300 hover:scale-[1.02] group">
+    <div className="bg-white dark:bg-slate-900 p-7 rounded-[1rem] border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow- hover:shadow-emerald-500/5 transition-all duration-300 hover:scale-[1.02]  group">
       <div className="flex justify-between items-start mb-6">
         <div
           className={`p-3 rounded-2xl ${themes[color]} transition-transform group-hover:scale-110`}

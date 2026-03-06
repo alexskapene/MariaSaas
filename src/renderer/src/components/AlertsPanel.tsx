@@ -35,7 +35,7 @@ const AlertItem = ({ type, title, message, date }: AlertItemProps) => {
 
 export const AlertsPanel: React.FC<Props> = ({ count }) => {
   return (
-    <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+    <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[1rem] md:rounded-[1rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
       <div className="flex justify-between items-center mb-8">
         <h3 className="text-lg md:text-xl font-black italic text-slate-900 dark:text-white tracking-tighter uppercase">
           Alertes GxP
