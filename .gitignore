@@ -6,6 +6,7 @@ out
 *.log*
 .env
 .env.*
+.vscode/settings.json
 /src/generated/prisma
 /src/renderer/dist
 /src/renderer/node_modules
@@ -19,7 +20,9 @@ out
 /src/renderer/public/vite.svg.map.br.gz.br.gz.br
 /src/renderer/public/vite.svg.map.br.gz.br.gz.br.gz
 /prisma/dev.dbprisma/*.db
-prisma/*.db-journal
+/prisma/*.db-journal
+/prisma/dev.db
+
 # Database files
 # SQLite / Prisma database
 *.db

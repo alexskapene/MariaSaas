@@ -1,12 +1,12 @@
+// src/preload/index.d.ts
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { ApiResponse } from '../shared/api'
 import { LoginInput } from '../shared/schemas/authSchema'
-import { CreateUserInput, UpdateUserInput } from '../shared/schemas/userSchema'
+import { CreateUserInput, UpdateUserInput, UpdateProfileInput } from '../shared/schemas/userSchema'
 import { ProductInput, CreateRequisitionInput } from '../shared/schemas/inventorySchema'
 import { CreateSaleInput } from '@shared/schemas/salesSchema'
-import { ApiResponse } from '../shared/api'
-
-// Interfaces pour le typage des retours
+import { CreateClientInput, UpdateClientInput } from '../shared/schemas/clientSchema'
+import { CreateSupplierInput, UpdateSupplierInput } from '../shared/schemas/supplierSchema'
 
 declare global {
   interface Window {
@@ -15,6 +15,7 @@ declare global {
       auth: {
         login: (data: LoginInput) => Promise<ApiResponse<UserDTO>>
         logout: () => Promise<ApiResponse<void>>
+        updateProfile: (data: UpdateProfileInput) => Promise<ApiResponse<UserDTO>>
       }
       users: {
         getAll: () => Promise<ApiResponse<UserDTO[]>>
@@ -25,7 +26,6 @@ declare global {
       inventory: {
         getProducts: () => Promise<ApiResponse<ProductDTO[]>>
         createProduct: (data: ProductInput) => Promise<ApiResponse<ProductDTO>>
-
         createSupplier: (
           data: CreateSupplierInput,
           role: string
@@ -36,7 +36,6 @@ declare global {
         ) => Promise<ApiResponse<SupplierDTO>>
         deleteSupplier: (id: string, role: string) => Promise<ApiResponse<void>>
         getSuppliers: () => Promise<ApiResponse<SupplierDTO[]>>
-
         createDraft: (data: CreateRequisitionInput) => Promise<ApiResponse<RequisitionDTO>>
         validateRequisition: (id: string) => Promise<ApiResponse<RequisitionDTO>>
         getRequisitions: () => Promise<ApiResponse<RequisitionDTO[]>>

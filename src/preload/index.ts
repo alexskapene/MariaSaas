@@ -1,15 +1,16 @@
+// src/preload/index.ts
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { LoginInput } from '../shared/schemas/authSchema'
-import { CreateUserInput, UpdateUserInput } from '@shared/schemas/userSchema'
+import { CreateUserInput, UpdateUserInput, UpdateProfileInput } from '@shared/schemas/userSchema'
 import { CreateClientInput, UpdateClientInput } from '../shared/schemas/clientSchema'
 import { CreateSupplierInput, UpdateSupplierInput } from '@shared/schemas/supplierSchema'
 
-// Api typée
 const api = {
   auth: {
     login: (data: LoginInput) => ipcRenderer.invoke('auth:login', data),
-    logout: () => ipcRenderer.invoke('auth:logout')
+    logout: () => ipcRenderer.invoke('auth:logout'),
+    updateProfile: (data: UpdateProfileInput) => ipcRenderer.invoke('auth:update-profile', data)
   },
   users: {
     getAll: () => ipcRenderer.invoke('users:get-all'),
@@ -55,9 +56,6 @@ const api = {
   }
 }
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
