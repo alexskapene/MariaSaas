@@ -1,4 +1,3 @@
-// src/main/services/authService.ts
 import { prisma } from '../lib/prisma'
 import { LoginInput } from '../../shared/schemas/authSchema'
 import { UpdateProfileInput } from '../../shared/schemas/userSchema'
@@ -114,16 +113,24 @@ export class AuthService {
     }
 
     if (count === 0) {
-      const hashedPassword = await bcrypt.hash('admin123', 10)
+      // Récupération depuis le .env ou valeurs par défaut sécurisées
+      const adminEmail = process.env.SUPERADMIN_EMAIL || 'admin@mariasaas.com'
+      const adminPassword = process.env.SUPERADMIN_PASSWORD || 'admin123'
+      const adminName = process.env.SUPERADMIN_NAME || 'Super Admin'
+
+      const hashedPassword = await bcrypt.hash(adminPassword, 10)
+
       await prisma.user.create({
         data: {
-          email: 'admin@mariasaas.com',
+          email: adminEmail,
           password: hashedPassword,
-          name: 'Super Admin',
-          role: 'SUPERADMIN'
+          name: adminName,
+          role: 'SUPERADMIN',
+          phone: null,
+          avatar: null
         }
       })
-      console.log('⚡ SuperAdmin par défaut créé')
+      // console.log('⚡ SuperAdmin par défaut créé')
     }
   }
 }

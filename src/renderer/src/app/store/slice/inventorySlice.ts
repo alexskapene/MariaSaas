@@ -90,7 +90,7 @@ export const createDraftRequisition = createAsyncThunk<Requisition, CreateRequis
     try {
       const response = await window.api.inventory.createDraft(data)
       if (!response.success) throw new Error(response.error?.message || 'Erreur création bon')
-      return response.data as Requisition
+      return response.data as unknown as Requisition
     } catch (err: unknown) {
       const error = err as Error
       return rejectWithValue(
@@ -106,7 +106,7 @@ export const validateRequisition = createAsyncThunk<Requisition, string>(
     try {
       const response = await window.api.inventory.validateRequisition(id)
       if (!response.success) throw new Error(response.error?.message || 'Erreur validation')
-      return response.data as Requisition
+      return response.data as unknown as Requisition
     } catch (err: unknown) {
       const error = err as Error
       return rejectWithValue(error.message || 'Erreur lors de la validation du bon')

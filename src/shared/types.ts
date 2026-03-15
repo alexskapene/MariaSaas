@@ -104,6 +104,8 @@ export interface UserDTO {
   name: string
   email: string
   role: string
+  phone: string | null
+  avatar: string | null
   lastLogin: Date | null
   createdAt: Date
   updatedAt: Date

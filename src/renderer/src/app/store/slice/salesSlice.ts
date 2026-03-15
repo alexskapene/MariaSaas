@@ -87,7 +87,7 @@ export const fetchSalesHistory = createAsyncThunk(
     try {
       const response = await window.api.sales.getHistory(dateRange)
       if (!response.success) throw new Error(response.error?.message)
-      return response.data as SaleHistoryItem[]
+      return response.data as unknown as SaleHistoryItem[]
     } catch (err: unknown) {
       const error = err as Error
       return rejectWithValue(error.message)
@@ -138,7 +138,7 @@ const salesSlice = createSlice({
       .addCase(processCheckout.fulfilled, (state, action) => {
         state.isLoading = false
         state.cart = []
-        state.lastSaleId = action.payload.id
+        state.lastSaleId = action.payload?.id || null
       })
       .addCase(processCheckout.rejected, (state, action) => {
         state.isLoading = false

@@ -120,7 +120,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.isAuthenticated = true
-        state.user = action.payload.user
+        state.user = action.payload.user as unknown as UserState
 
         if (action.payload.rememberMe) {
           localStorage.setItem('auth_user', JSON.stringify(action.payload.user))
@@ -149,7 +149,7 @@ const authSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.isLoading = false
         if (state.user) {
-          state.user = { ...state.user, ...action.payload }
+          state.user = { ...state.user, ...action.payload } as unknown as UserState
         }
       })
       .addCase(updateProfile.rejected, (state, action) => {

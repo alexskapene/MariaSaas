@@ -72,7 +72,7 @@ export const SalesChart: React.FC<Props> = ({ data }) => {
                 boxShadow: '0 10px 30px -5px rgba(0,0,0,0.1)'
               }}
               itemStyle={{ color: strokeColor }}
-              formatter={(value: number | string | undefined) => {
+              formatter={(value: unknown) => {
                 if (value === undefined) return ['0 FC', 'Ventes']
                 const formatted = Number(value).toLocaleString()
                 return [`${formatted} FC`, 'Ventes'] as [string, string]

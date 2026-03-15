@@ -1,4 +1,3 @@
-// src/preload/index.d.ts
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { ApiResponse } from '../shared/api'
 import { LoginInput } from '../shared/schemas/authSchema'
@@ -7,6 +6,18 @@ import { ProductInput, CreateRequisitionInput } from '../shared/schemas/inventor
 import { CreateSaleInput } from '@shared/schemas/salesSchema'
 import { CreateClientInput, UpdateClientInput } from '../shared/schemas/clientSchema'
 import { CreateSupplierInput, UpdateSupplierInput } from '../shared/schemas/supplierSchema'
+import {
+  UserDTO,
+  ProductDTO,
+  SaleDTO,
+  RequisitionDTO,
+  CashMovementDTO,
+  DashboardStatsDTO,
+  SupplierDTO,
+  ClientDTO,
+  CreateClientInput,
+  UpdateClientInput
+} from '@shared/types'
 
 declare global {
   interface Window {

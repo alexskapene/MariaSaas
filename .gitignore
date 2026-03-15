@@ -1,34 +1,80 @@
+# =========================
+# Dependencies
+# =========================
 node_modules
+/src/renderer/node_modules
+package-lock.json
+
+# =========================
+# Build outputs
+# =========================
 dist
 out
-.DS_Store
-.eslintcache
+build
+/src/renderer/dist
+
+# =========================
+# Logs
+# =========================
+*.log
 *.log*
+
+# =========================
+# Environment variables
+# =========================
 .env
 .env.*
+
+# =========================
+# Cache
+# =========================
+.eslintcache
+.vite
+.cache
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# VSCode
+# =========================
 .vscode/settings.json
+
+# =========================
+# Prisma generated files
+# =========================
 /src/generated/prisma
-/src/renderer/dist
-/src/renderer/node_modules
+
+# =========================
+# SQLite / Prisma databases
+# =========================
+*.db
+*.db-journal
+*.db.backup
+
+prisma/*.db
+prisma/*.db-journal
+prisma/*.db.backup
+/prisma/dev.db
+
+# =========================
+# Vite artifacts
+# =========================
 /src/renderer/public/vite.svg
 /src/renderer/public/vite.svg.map
 /src/renderer/public/vite.svg.map.gz
 /src/renderer/public/vite.svg.map.br
 /src/renderer/public/vite.svg.map.br.gz
-/src/renderer/public/vite.svg.map.br.gz.br
-/src/renderer/public/vite.svg.map.br.gz.br.gz
-/src/renderer/public/vite.svg.map.br.gz.br.gz.br
-/src/renderer/public/vite.svg.map.br.gz.br.gz.br.gz
-/prisma/dev.dbprisma/*.db
-/prisma/*.db-journal
-/prisma/dev.db
 
-# Database files
-# SQLite / Prisma database
-*.db
-*.db-journal
-*.db.backup
-
-# Prisma local database
-prisma/*.db
-prisma/*.db.backup
+# =========================
+# Electron builder
+# =========================
+release
+*.blockmap
+*.dmg
+*.exe
+*.AppImage
+*.snap

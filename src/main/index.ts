@@ -23,11 +23,11 @@ if (process.platform === 'linux') {
   // Optionnel : uniquement si GPU vraiment cassé
   // app.disableHardwareAcceleration();
 
-  console.log('🐧 Linux Mode: Stable (X11 + No Sandbox)')
+  // console.log('🐧 Linux Mode: Stable (X11 + No Sandbox)')
 }
 
 function createWindow(): void {
-  console.log('🖼️ Tentative création fenêtre...')
+  // console.log('🖼️ Tentative création fenêtre...')
 
   const mainWindow = new BrowserWindow({
     width: 1200,
@@ -58,7 +58,7 @@ function createWindow(): void {
   })
 
   mainWindow.webContents.once('did-finish-load', () => {
-    console.log('✅ did-finish-load → show()')
+    // console.log('✅ did-finish-load → show()')
     mainWindow.show()
   })
 
@@ -67,7 +67,7 @@ function createWindow(): void {
   })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    console.log(`🔗 Load URL: ${process.env['ELECTRON_RENDERER_URL']}`)
+    // console.log(`🔗 Load URL: ${process.env['ELECTRON_RENDERER_URL']}`)
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
@@ -75,7 +75,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(async () => {
-  console.log('🚀 App Ready...')
+  // console.log('🚀 App Ready...')
   electronApp.setAppUserModelId('com.mariasaas')
 
   // Init DB
@@ -106,7 +106,7 @@ app.whenReady().then(async () => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    console.log('👋 Quit.')
+    // console.log('👋 Quit.')
     app.quit()
   }
 })
